@@ -5,7 +5,7 @@ from sqlalchemy.engine import Engine
 from sqlite3 import Connection as SQLite3Connection
 from flask_sqlalchemy import SQLAlchemy
 
-from structures import linked_list
+from structures import linked_list, hash_table
 
 # app
 app = Flask(__name__)
@@ -43,7 +43,8 @@ class Blogpost(db.Model):
     date = db.Column(db.Date)
     user_id = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
 
-# routes
+## routes
+# user calls
 @app.route("/user", methods=["POST"])
 def create_user():
     data = request.get_json()
@@ -123,9 +124,33 @@ def delete_user(user_id):
 
     return jsonify({"message": "User deleted"}), 200
 
+# blog post calls
 @app.route("/blog_post/<user_id>", methods=["POST"])
 def create_blog_post(user_id):
-    pass
+    data = request.get_json()
+
+    user = User.query.filter_by(id=user_id).first()
+    if not user:
+        return jsonify({"message": "User does not exist"}), 400
+    
+    ht = hash_table.HashTable(10)
+    
+    ht.add_key_value("title", data["title"])
+    ht.add_key_value("body", data["body"])
+    ht.add_key_value("date", now)
+    ht.add_key_value("user_id", user_id)
+
+    new_blog_post = Blogpost(
+        title=ht.get_value("title"),
+        body=ht.get_value("body"),
+        date=ht.get_value("date"),
+        user_id=ht.get_value("user_id")
+    )
+
+    db.session.add(new_blog_post)
+    db.session.commit()
+
+    return jsonify({"message": "New blog post created"}), 200
 
 @app.route("/blog_post/<user_id>", methods=["GET"])
 def get_all_blog_post(user_id):
