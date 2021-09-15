@@ -1,11 +1,12 @@
 from datetime import datetime
 from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+import random
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 from sqlite3 import Connection as SQLite3Connection
-from flask_sqlalchemy import SQLAlchemy
 
-from structures import linked_list, hash_table
+from structures import binary_search_tree, linked_list, hash_table
 
 # app
 app = Flask(__name__)
@@ -152,9 +153,27 @@ def create_blog_post(user_id):
 
     return jsonify({"message": "New blog post created"}), 200
 
-@app.route("/blog_post/<user_id>", methods=["GET"])
-def get_all_blog_post(user_id):
-    pass
+@app.route("/blog_post/<blog_post_id>", methods=["GET"])
+def get_all_blog_post(blog_post_id):
+    blog_posts = Blogpost.query.all()
+    random.shuffle(blog_posts) # to create a more balanced tree
+
+    bst = binary_search_tree.BinarySearchTree()
+
+    for post in blog_posts:
+        bst.insert({
+            "id": post.id,
+            "title": post.title,
+            "body": post.body,
+            "user_id": post.user_id,
+        })
+
+    post = bst.search(blog_post_id)
+
+    if not post:
+        return jsonify({"message": "post not found"}), 400
+    
+    return jsonify(post), 200
 
 @app.route("/blog_post/<blog_post_id>", methods=["DELETE"])
 def delete_blog_post(blog_post_id):
