@@ -4,10 +4,11 @@ Showcasing foundational data structure concepts using Python and Flask.
 
 Query data via API that use different data structure concepts:
 
-* linked lists
-* hash tables
-* binary search trees
-* stacks and queues
+* [linked lists](./src/structures/linked_list.py)
+* [hash tables](./src/structures/hash_table.py)
+* [binary search trees](./src/structures/binary_search_tree.py)
+* [queues](./src/structures/queue.py)
+* and [stacks](./src/structures/stack.py)
 
 ---
 
@@ -21,7 +22,9 @@ Create Python environment:
 
 * `conda activate datastruc`
 
-Create database (or use existing):
+Create database (or use existing in /resources):
+
+cd into /src
 
 * `python`
 
@@ -33,7 +36,7 @@ Create database (or use existing):
 
 A _sqlitedb.file_ file should be created. View the db via [SQLite Browser](https://sqlitebrowser.org/dl/).
 
-Create dummy data (or use existing): `python gen_dummyData.py`
+Populate _sqlitedb.file with dummy data (or use existing in /resources): `python gen_dummyData.py`
 
 ## Usage
 
