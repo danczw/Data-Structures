@@ -4,7 +4,7 @@ Showcasing foundational data structure concepts using Python and Flask. Query da
 
 ---
 
-## Setupt
+## Setup
 
 **Create Python environment:**
 
@@ -13,10 +13,12 @@ Showcasing foundational data structure concepts using Python and Flask. Query da
 
 **Create database (or use existing):**
 
-`python`
-`from server import db`
-`db.create_all()`
-`exit()`
+```
+python
+from server import db
+db.create_all()
+exit()`
+```
 
 A _sqlitedb.file_ file should be created. View the db via [SQLite Browser](https://sqlitebrowser.org/dl/).
 
