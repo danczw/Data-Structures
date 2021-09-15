@@ -1,0 +1,12 @@
+name: datastruc
+channels:
+  - conda-forge
+  - anaconda
+  - defaults
+dependencies:
+  - faker=8.8
+  - flask=1.1
+  - flask-sqlalchemy=2.5
+  - python=3.9
+  - sqlalchemy=1.4
+  - sqlite=3.36
