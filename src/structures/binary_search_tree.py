@@ -9,21 +9,21 @@ class BinarySearchTree:
     def __init__(self):
         self.root = None
 
-    def _insert_recursive(self, value, node):
+    def _insert_recursive(self, data, node):
         """ recursively checking left and right node size for insertion """
-        if value < node.data:
+        if data["id"] < node.data["id"]:
             
             if node.left is None:
-                node.left = Node(value)
+                node.left = Node(data)
             else:
-                self._insert_recursive(value, node.left)
+                self._insert_recursive(data, node.left)
 
-        elif value > node.data:
+        elif data["id"] > node.data["id"]:
 
             if node.right is None:
-                node.right = Node(value)
+                node.right = Node(data)
             else:
-                self._insert_recursive(value, node.right)
+                self._insert_recursive(data, node.right)
 
         else: # must be duplicate
             return
@@ -34,3 +34,30 @@ class BinarySearchTree:
             self.root = Node(value)
         else:
             self._insert_recursive(value, self.root)
+    
+    def _search_recursive(self, blog_post_id, node):
+        """ recursively checking left and right node id for match """
+
+        if blog_post_id == node.data["id"]:
+            return node.data
+
+        if blog_post_id < node.data["id"] and node.left is not None:
+            if blog_post_id == node.left.data["id"]:
+                return node.left.data
+            return self._search_recursive(blog_post_id, node.left)
+
+        if blog_post_id > node.data["id"] and node.right is not None:
+            if blog_post_id == node.right.data["id"]:
+                return node.right.data
+            return self._search_recursive(blog_post_id, node.right)
+        
+        return False
+
+    def search(self, blog_post_id):
+        """ search for blogpost by id """
+        blog_post_id = int(blog_post_id)
+
+        if self.root is None:
+            return False
+        
+        return self._search_recursive(blog_post_id, self.root)
