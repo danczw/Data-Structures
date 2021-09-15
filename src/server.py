@@ -5,8 +5,7 @@ import random
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 from sqlite3 import Connection as SQLite3Connection
-
-from structures import binary_search_tree, linked_list, hash_table
+from structures import binary_search_tree, linked_list, hash_table, queue
 
 # app
 app = Flask(__name__)
@@ -154,7 +153,7 @@ def create_blog_post(user_id):
     return jsonify({"message": "New blog post created"}), 200
 
 @app.route("/blog_post/<blog_post_id>", methods=["GET"])
-def get_all_blog_post(blog_post_id):
+def get_one_blogpost(blog_post_id):
     blog_posts = Blogpost.query.all()
     random.shuffle(blog_posts) # to create a more balanced tree
 
@@ -174,6 +173,37 @@ def get_all_blog_post(blog_post_id):
         return jsonify({"message": "post not found"}), 400
     
     return jsonify(post), 200
+
+@app.route("/blog_post/numeric_body", methods=["GET"])
+def get_numeric_post_bodies():
+    blog_posts = Blogpost.query.all()
+
+    q = queue.Queue()
+
+    for post in blog_posts:
+        q.enqueue(post)
+
+    result_list = []
+    for i in range(len(blog_posts)):
+        post = q.dequeue()
+        numeric_body = 0
+
+        for char in post.data.body:
+            numeric_body += ord(char)
+        
+        post.data.body = numeric_body
+
+        result_list.append(
+            {
+                "id": post.data.id,
+                "title": post.data.title,
+                "body": post.data.body,
+                "user_id": post.data.user_id
+            }
+        )
+    
+    return jsonify(result_list)
+
 
 @app.route("/blog_post/<blog_post_id>", methods=["DELETE"])
 def delete_blog_post(blog_post_id):
