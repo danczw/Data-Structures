@@ -5,7 +5,7 @@ import random
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 from sqlite3 import Connection as SQLite3Connection
-from structures import binary_search_tree, linked_list, hash_table, queue
+from structures import binary_search_tree, linked_list, hash_table, queue, stack
 
 # app
 app = Flask(__name__)
@@ -175,7 +175,7 @@ def get_one_blogpost(blog_post_id):
     return jsonify(post), 200
 
 @app.route("/blog_post/numeric_body", methods=["GET"])
-def get_numeric_post_bodies():
+def get_numeric_post_body():
     blog_posts = Blogpost.query.all()
 
     q = queue.Queue()
@@ -205,9 +205,22 @@ def get_numeric_post_bodies():
     return jsonify(result_list)
 
 
-@app.route("/blog_post/<blog_post_id>", methods=["DELETE"])
-def delete_blog_post(blog_post_id):
-    pass
+@app.route("/blog_post/delete_last_10", methods=["DELETE"])
+def delete_last_10():
+    blog_posts = Blogpost.query.all()
 
+    st = stack.Stack()
+
+    for post in blog_posts:
+        st.push(post)
+
+    for i in range(10):
+        post_to_delete = st.pop()
+        db.session.delete(post_to_delete)
+        db.session.commit()
+
+    return jsonify({"message": "10 posts deleted"}), 200
+
+# run app
 if __name__ == "__main__":
     app.run(debug=True)
