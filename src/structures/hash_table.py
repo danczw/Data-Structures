@@ -14,7 +14,7 @@ class HashTable:
         self.hash_table = [None] * table_size
 
     def custom_hash(self, key):
-        # custom function for hashing keys
+        """ custom function for hashing keys """
         hash_value = 0
 
         for i in key:
@@ -25,6 +25,7 @@ class HashTable:
         return hash_value
 
     def add_key_value(self, key, value):
+        """ add key, value pair to hash table by hashing key """
         hashed_key = self.custom_hash(key)
 
         if self.hash_table[hashed_key] is None:
@@ -37,12 +38,13 @@ class HashTable:
             node.next_node = Node(Data(key, value), None)
     
     def get_value(self, key):
+        """ return value of a key """
         hashed_key = self.custom_hash(key)
 
         if self.hash_table[hashed_key] is not None:
             node = self.hash_table[hashed_key]
 
-            if node.next_node is not None:
+            if node.next_node is None:
                 return node.data.value
             
             while node.next_node:
@@ -56,6 +58,7 @@ class HashTable:
         return None
 
     def print_table(self):
+        """ display hash table """
         print("{")
         for i, val in enumerate(self.hash_table):
             if val is not None:
@@ -65,12 +68,12 @@ class HashTable:
                 if node.next_node:
                     while node.next_node:
                         llist_string += (
-                            str(node.data.key + ":" + str(node.data.value) + " -> ")
+                            str(node.data.key + " : " + str(node.data.value) + " -> ")
                         )
                         node = node.next_node
                     
                     llist_string += (
-                        str(node.data.key + ":" + str(node.data.value) + " -> None")
+                        str(node.data.key + " : " + str(node.data.value) + " -> None")
                     )
                     print(f"    [{i}] {llist_string}")
                 else:
