@@ -1,4 +1,4 @@
-# Data-Structures with Flask
+# Data Structures with Flask
 
 Showcasing foundational data structure concepts using Python and Flask.
 
