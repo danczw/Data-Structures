@@ -4,11 +4,10 @@ Showcasing foundational data structure concepts using Python and Flask. Query da
 
 ---
 
-## Setupt
-
 **Create Python environment:**
 
 `conda create -f environment.yml`
+
 `conda activate datastruc`
 
 **Create database (or use existing):**
