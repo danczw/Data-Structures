@@ -1,36 +1,47 @@
-# Data-Structures
+# Data-Structures with Flask
 
-Showcasing foundational data structure concepts using Python and Flask. Query data via API that use _linked lists_, _hash table_, _binary search tree_ as well as _stacks_ and _queues_ data structure concepts.
+Showcasing foundational data structure concepts using Python and Flask.
+
+Query data via API that use different data structure concepts:
+
+* linked lists
+* hash tables
+* binary search trees
+* stacks and queues
 
 ---
 
-**Create Python environment:**
+## Setup
 
-`conda create -f environment.yml`
+Dependencies can be found in [environment.yml](environment.yml)
 
-`conda activate datastruc`
+Create Python environment:
 
-**Create database (or use existing):**
+* `conda create -f environment.yml`
 
-`python`
+* `conda activate datastruc`
 
-`from server import db`
+Create database (or use existing):
 
-`db.create_all()`
+* `python`
 
-`exit()`
+* `from server import db`
+
+* `db.create_all()`
+
+* `exit()`
 
 A _sqlitedb.file_ file should be created. View the db via [SQLite Browser](https://sqlitebrowser.org/dl/).
 
-**Create dummy data (or use existing):**
+Create dummy data (or use existing): `python gen_dummyData.py`
 
-`python gen_dummyData.py`
+## Usage
 
 **Run server to allow API queries:**
 
 `python server.py`
 
-Use _[Postman](https://www.postman.com/)_ for API testing.
+Use _[Postman](https://www.postman.com/)_ for API testing. You can find examplary API call in _/resources_
 
 ---
 
